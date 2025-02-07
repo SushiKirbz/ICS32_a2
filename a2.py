@@ -25,28 +25,15 @@ def startup():
     print(START_PROMPT)
 
     while invalid:
-        option = input()
+        option = input().strip()
         if option == 'admin':
             invalid = False
-            run_admin(current_profile, default_path)
+            ui.run_admin(current_profile, default_path)
         elif (option == 'O') or (option == 'C'):
             invalid = False
-            ui.run_standard(current_profile, default_path, option)
+            ui.run_standard(current_profile, option)
         else:
             print(INVALID_COMMAND_MSG)
-
-
-def run_admin(active_profile: Profile, active_path: str):
-
-    try:
-        arguments = ui.split_input(input())
-        again, new_active_path = ui.run_command(
-            active_profile, arguments, active_path)
-        if again:
-            run_admin(active_profile, new_active_path)
-    except (AssertionError, KeyboardInterrupt, ValueError):
-        print("Error")
-        run_admin(active_profile, active_path)
 
 
 if __name__ == "__main__":
