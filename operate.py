@@ -6,23 +6,35 @@ from pathlib import Path
 from Profile import Profile, Post
 import os
 
+"""
+Creates a file at the given path. Throws
+FileExistsError if file is present already.
+"""
 
-def create_file(path: str):
-    """
-    Creates a file at the given path.
-    Parameters:
-    path - a Path object of the desired location for file creation.
-    """
+
+def create_file(path: str) -> None:
     file_path = Path(path)
     file_path.touch(exist_ok=False)
     print(file_path.resolve())
 
 
-def open_file(profile: Profile, path: str):
+"""
+Populates the given profile object with data from the file
+supplied as a string path.
+"""
+
+
+def open_file(profile: Profile, path: str) -> None:
     profile.load_profile(path)
 
 
-def delete_file(path):
+"""
+Deletes the file at the given path
+path - a Path object of the desired location for file creation.
+"""
+
+
+def delete_file(path: Path) -> None:
     """
     Deletes a file at the given path.
     Parameters:
@@ -36,13 +48,16 @@ def delete_file(path):
         print("ERROR")
 
 
-def read_file(path):
-    """
-    Reads a file at the given path line by line. Will print "EMPTY" if file size is zero.
+"""
+    Reads a file at the given path line by line.
+    Will print "EMPTY" if file size is zero.
     All contained whitespace characters will count as a non-empty file.
-    Parameters:
     path - a Path object of the desired location for file creation.
-    """
+"""
+
+
+def read_file(path: Path) -> None:
+
     file_path = path
     try:
         with file_path.open() as file:
@@ -55,8 +70,15 @@ def read_file(path):
         print("ERROR")
 
 
-def parse_print_options(profile: Profile, input):
-    if type(input) == str:
+"""
+    Parses through various valid options to print
+    the corresponding data from the provided profile object.
+    Accepted options: [-usr, -pwd, -bio, -posts, -post [ID], -all]
+"""
+
+
+def parse_print_options(profile: Profile, input) -> None:
+    if type(input) is str:
         option = input
     else:
         option = input[0]
@@ -89,7 +111,14 @@ def parse_print_options(profile: Profile, input):
         print("ERROR")
 
 
-def parse_edit_options(profile: Profile, input: list):
+"""
+Parses through various valid options to edit
+the corresponding data from the provided profile object.
+Accepted options: [-usr, -pwd, -bio, -addpost, -delpost]
+"""
+
+
+def parse_edit_options(profile: Profile, input: list) -> None:
 
     option = input[0]
     argument = input[1]
